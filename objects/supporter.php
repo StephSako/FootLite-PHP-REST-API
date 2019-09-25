@@ -1,0 +1,79 @@
+<?php
+	class Supporter{
+		private $id;
+		private $connexion;
+		private $favoriteTeam;
+		private $pseudo;
+		private $password;
+
+		public function __construct(){
+	    		include(realpath('../config/bdd.php'));
+	    		$this->connexion = $co;
+
+	        	if (func_num_args() == 3){
+	        		// sign up
+				$this->pseudo = func_get_arg(0);
+				$this->password = func_get_arg(1);
+				$this->favoriteTeam = func_get_arg(2);
+	        	}
+			else if (func_num_args() == 2){
+	        		// sign in
+				$this->pseudo = func_get_arg(0);
+		        	$this->password = func_get_arg(1);
+	    		}
+	    		else if (func_num_args() == 1){
+	    			// other treatments
+	    			$this->id = func_get_arg(0);
+	    		}
+	    	}
+
+		public function connexion(){
+			$stmt = $this->connexion->prepare("SELECT id FROM SUPPORTER WHERE pseudo = '".$this->pseudo."' AND password = '".$this->password."'");
+			$stmt->execute();
+			$tab = $stmt->fetch(PDO::FETCH_ASSOC);
+
+			return $tab['id'];
+		}
+
+		public function inscription(){
+			$stmt = $this->connexion->prepare("SELECT pseudo FROM SUPPORTER WHERE pseudo = '".$this->pseudo."'");
+			$stmt->execute();
+
+            		if (count($stmt->fetchAll()) == 0){
+	                	$stmt = $this->connexion->prepare("INSERT INTO SUPPORTER (pseudo, password, favoriteTeam) VALUES ('".$this->pseudo."', '".$this->password."', '".$this->favoriteTeam."')");
+        	    		$stmt->execute();
+
+				return $this->connexion->lastInsertId();
+			}
+            		else return -1;
+		}
+
+		public function bet($bet){
+    			$stmt = $this->connexion->prepare("SELECT idBet FROM BET WHERE idSupporter = ".$this->id." AND idWinner = ".$bet->idWinner." AND idMatch = ".$bet->idMatch);
+    			$stmt->execute();
+    			$tab = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    			if(count($tab) == 0){
+	    			$stmt = $this->connexion->prepare("INSERT INTO BET (idMatch, idWinner, idSupporter) VALUES (".$bet->idMatch.", ".$bet->idWinner.", ".$this->id.")");
+	    			$stmt->execute();
+
+				return "Paris effectué.";
+			}
+			else return "Ce pari existe déjà.";
+		}
+
+		public function unbet($idBet){
+                	$stmt = $this->connexion->prepare("SELECT idBet FROM BET WHERE idBet = ".$idBet);
+                	$stmt->execute();
+                	$tab = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                	if(count($tab) != 0){
+                        	$stmt = $this->connexion->prepare("DELETE FROM BET WHERE idBet = ".$idBet);
+                        	$stmt->execute();
+
+                        	return "Paris annulé.";
+                	}
+                	else return "Ce paris n'existe pas.";
+            	}
+	}
+?>
