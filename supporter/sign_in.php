@@ -10,7 +10,7 @@
 		$id = $supporter->connexion();
 
 		if ($id != null) json_sign_in_up($id, "Vous êtes connecté.", true);
-		else json_sign_in_up(-1, "Vous n'êtes pas inscrit.", false);
+		else json_sign_in_up($id, "Vous n'êtes pas inscrit.", false);
 	}
 	else json_sign_in_up(-1, "Les informations sont incomplètes.", false);
 ?>
