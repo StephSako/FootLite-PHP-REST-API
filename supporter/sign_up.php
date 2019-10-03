@@ -11,7 +11,7 @@
 		$id = $supporter->inscription();
 
 		if($id != -1) json_sign_up($id, $pseudo, $password, $favoriteTeam);
-		else json_sign_up(-1, "", "", ,"");
+		else json_sign_up(-1, "", "", "");
 	}
 	else json_sign_up(-1, "", "", "");
 ?>

@@ -43,7 +43,7 @@
 
 			$stmt = $this->connexion->prepare("SELECT idMatch, idBet, idWinner, idSupporter FROM BET NATURAL JOIN SUPPORTER WHERE pseudo = '".$this->pseudo."' AND password = '".$this->password."'");
                         $stmt->execute();
-			$tab_infos["tab_bets"] = $stmt->fetch(PDO::FETCH_ASSOC);
+			$tab_infos["tab_bets"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $tab_infos;
 		}
 
