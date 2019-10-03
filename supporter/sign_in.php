@@ -7,10 +7,10 @@
 
 	if($pseudo != null && $password != null){
 		$supporter = new Supporter($pseudo, $password);
-		$id = $supporter->connexion();
+		$tab_infos = $supporter->connexion();
 
-		if ($id != null) json_sign_in_up($id, "Vous êtes connecté.", true);
-		else json_sign_in_up($id, "Vous n'êtes pas inscrit.", false);
+		if ($tab_infos["idSupporter"] != null) json_sign_in($tab_infos["idSupporter"], $pseudo, $password, $tab_infos["favoriteTeam"], $tab_infos["tab_bets"]);
+		else json_sign_in(-1, "", "", "", "");
 	}
-	else json_sign_in_up(-1, "Les informations sont incomplètes.", false);
+	else json_sign_in(-1, "", "", "", "");
 ?>

@@ -35,11 +35,16 @@
 	    	}
 
 		public function connexion(){
-			$stmt = $this->connexion->prepare("SELECT idSupporter FROM SUPPORTER WHERE pseudo = '".$this->pseudo."' AND password = '".$this->password."'");
+			$stmt = $this->connexion->prepare("SELECT idSupporter, pseudo, password, favoriteTeam FROM SUPPORTER WHERE pseudo = '".$this->pseudo."' AND password = '".$this->password."'");
 			$stmt->execute();
 			$tab = $stmt->fetch(PDO::FETCH_ASSOC);
+			$tab_infos["idSupporter"] = $tab['idSupporter'];
+			$tab_infos["favoriteTeam"] = $tab['favoriteTeam'];
 
-			return $tab['idSupporter'];
+			$stmt = $this->connexion->prepare("SELECT idMatch, idBet, idWinner, idSupporter FROM BET NATURAL JOIN SUPPORTER WHERE pseudo = '".$this->pseudo."' AND password = '".$this->password."'");
+                        $stmt->execute();
+			$tab_infos["tab_bets"] = $stmt->fetch(PDO::FETCH_ASSOC);
+			return $tab_infos;
 		}
 
 		public function inscription(){
@@ -49,8 +54,7 @@
             		if (count($stmt->fetchAll()) == 0){
 	                	$stmt = $this->connexion->prepare("INSERT INTO SUPPORTER (pseudo, password, favoriteTeam) VALUES ('".$this->pseudo."', '".$this->password."', '".$this->favoriteTeam."')");
         	    		$stmt->execute();
-
-				return 1;
+				return $this->connexion->lastInsertId();
 			}
             		else return -1;
 		}
