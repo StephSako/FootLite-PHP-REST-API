@@ -9,5 +9,6 @@
 
 	$bet = new Bet($idMatch, $idSupporter, $idWinner);
 	$supporter = new Supporter($idSupporter);
-	json_bet($supporter->bet($bet));
+	$tab_bets = $supporter->bet($bet);
+	json_bet($tab_bets["tab_bets"]);
 ?>

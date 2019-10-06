@@ -80,12 +80,16 @@
 			if(count($tabVerif) == 0){
 				$stmt = $this->connexion->prepare("INSERT INTO BET (idMatch, idWinner, idSupporter) VALUES (".$bet->idMatch.", ".$bet->idWinner.", ".$this->idSupporter.")");
 	   			$stmt->execute();
-				return $this->connexion->lastInsertId();
-			}else{
+			}
+			else{
 				$stmt = $this->connexion->prepare("UPDATE BET SET idWinner = ".$bet->idWinner." WHERE idSupporter =".$this->idSupporter." AND idMatch = ".$bet->idMatch);
                         	$stmt->execute();
-				return $tabVerif[0]["idBet"];
 			}
+
+			$stmt = $this->connexion->prepare("SELECT idMatch, idBet, idWinner, idSupporter FROM BET WHERE idSupporter = ".$this->idSupporter);
+                        $stmt->execute();
+                        $bets["tab_bets"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $bets;
 		}
 
 		public function unbet($idBet){

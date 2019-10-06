@@ -11,8 +11,8 @@
 		echo json_encode($retour);
 	}
 
-	function json_bet($idBet){
-		$retour ["idBet"] = $idBet;
+	function json_bet($bets){
+		$retour ["tab_bets"] = $bets;
 
 		echo json_encode($retour);
 	}
