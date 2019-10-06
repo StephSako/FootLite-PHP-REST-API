@@ -73,31 +73,14 @@
                 }
 
 		public function bet($bet){
-    			$stmt = $this->connexion->prepare("SELECT idBet FROM BET WHERE idSupporter = ".$this->id." AND idWinner = ".$bet->idWinner." AND idMatch = ".$bet->idMatch);
-    			$stmt->execute();
-    			$tab = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    			if(count($tab) == 0){
-	    			$stmt = $this->connexion->prepare("INSERT INTO BET (idMatch, idWinner, idSupporter) VALUES (".$bet->idMatch.", ".$bet->idWinner.", ".$this->idSupporter.")");
-	    			$stmt->execute();
-
-				return "Paris effectué.";
-			}
-			else return "Ce pari existe déjà.";
+			$stmt = $this->connexion->prepare("INSERT INTO BET (idMatch, idWinner, idSupporter) VALUES (".$bet->idMatch.", ".$bet->idWinner.", ".$this->idSupporter.")");
+	   		$stmt->execute();
+			return $this->connexion->lastInsertId();
 		}
 
 		public function unbet($idBet){
-                	$stmt = $this->connexion->prepare("SELECT idBet FROM BET WHERE idBet = ".$idBet);
-                	$stmt->execute();
-                	$tab = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                	if(count($tab) != 0){
-                        	$stmt = $this->connexion->prepare("DELETE FROM BET WHERE idBet = ".$idBet);
-                        	$stmt->execute();
-
-                        	return "Paris annulé.";
-                	}
-                	else return "Ce paris n'existe pas.";
+                       	$stmt = $this->connexion->prepare("DELETE FROM BET WHERE idBet = ".$idBet);
+                       	$stmt->execute();
             	}
 	}
 ?>
