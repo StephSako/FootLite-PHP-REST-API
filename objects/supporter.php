@@ -3,6 +3,7 @@
 		private $idSupporter;
 		private $connexion;
 		private $favoriteTeam;
+		private $favoriteTeamName;
 		private $pseudo;
 		private $password;
 
@@ -10,18 +11,20 @@
 	    		include(realpath('../config/bdd.php'));
 	    		$this->connexion = $co;
 
-			if (func_num_args() == 4){
+			if (func_num_args() == 5){
                                 // update
                                 $this->pseudo = func_get_arg(0);
                                 $this->password = func_get_arg(1);
                                 $this->favoriteTeam = func_get_arg(2);
 				$this->idSupporter = func_get_arg(3);
+				$this->favoriteTeamName = func_get_arg(4);
                         }
-	        	else if (func_num_args() == 3){
+	        	else if (func_num_args() == 4){
 	        		// sign up
 				$this->pseudo = func_get_arg(0);
 				$this->password = func_get_arg(1);
 				$this->favoriteTeam = func_get_arg(2);
+				$this->favoriteTeamName = func_get_arg(3);
 	        	}
 			else if (func_num_args() == 2){
 	        		// sign in
@@ -35,11 +38,12 @@
 	    	}
 
 		public function connexion(){
-			$stmt = $this->connexion->prepare("SELECT idSupporter, pseudo, password, favoriteTeam FROM SUPPORTER WHERE pseudo = '".$this->pseudo."' AND password = '".$this->password."'");
+			$stmt = $this->connexion->prepare("SELECT idSupporter, pseudo, password, favoriteTeam, favoriteTeamName FROM SUPPORTER WHERE pseudo = '".$this->pseudo."' AND password = '".$this->password."'");
 			$stmt->execute();
 			$tab = $stmt->fetch(PDO::FETCH_ASSOC);
 			$tab_infos["idSupporter"] = $tab['idSupporter'];
 			$tab_infos["favoriteTeam"] = $tab['favoriteTeam'];
+			$tab_infos["favoriteTeamName"] = $tab['favoriteTeamName'];
 
 			$stmt = $this->connexion->prepare("SELECT idMatch, idBet, idWinner, idSupporter FROM BET NATURAL JOIN SUPPORTER WHERE pseudo = '".$this->pseudo."' AND password = '".$this->password."'");
                         $stmt->execute();
@@ -52,7 +56,7 @@
 			$stmt->execute();
 
             		if (count($stmt->fetchAll()) == 0){
-	                	$stmt = $this->connexion->prepare("INSERT INTO SUPPORTER (pseudo, password, favoriteTeam) VALUES ('".$this->pseudo."', '".$this->password."', '".$this->favoriteTeam."')");
+	                	$stmt = $this->connexion->prepare("INSERT INTO SUPPORTER (pseudo, password, favoriteTeam, favoriteTeamName) VALUES ('".$this->pseudo."', '".$this->password."', ".$this->favoriteTeam.",'".$this->favoriteTeamName."')");
         	    		$stmt->execute();
 				return $this->connexion->lastInsertId();
 			}
@@ -64,7 +68,7 @@
                         $stmt->execute();
 
                         if (count($stmt->fetchAll()) == 0){
-                                $stmt = $this->connexion->prepare("UPDATE SUPPORTER SET pseudo = '".$this->pseudo."', password = '".$this->password."', favoriteTeam = ".$this->favoriteTeam." WHERE idSupporter = ".$this->idSupporter);
+                                $stmt = $this->connexion->prepare("UPDATE SUPPORTER SET pseudo = '".$this->pseudo."', password = '".$this->password."', favoriteTeam = ".$this->favoriteTeam.", favoriteTeamName = '".$this->favoriteTeamName."' WHERE idSupporter = ".$this->idSupporter);
 				$stmt->execute();
 
                                 return 1;
