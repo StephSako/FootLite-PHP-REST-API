@@ -17,4 +17,10 @@
 
 		echo json_encode($retour);
 	}
+
+	function json_pourcent($pourcent){
+		$retour ["pourcent"] = $pourcent;
+
+		echo json_encode($retour);
+	}
 ?>
