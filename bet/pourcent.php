@@ -3,10 +3,12 @@
         include(realpath('../rest.php'));
 
         $idMatch = intval(htmlspecialchars($_POST["idMatch"]));
-        $idWinner = intval(htmlspecialchars($_POST["idWinner"]));
+        $idHome = intval(htmlspecialchars($_POST["idHome"]));
+	$idAway = intval(htmlspecialchars($_POST["idAway"]));
 
         $supporter = new Supporter();
-        $pourcent = $supporter->getPourcent($idMatch, $idWinner);
-        json_pourcent($pourcent);
+        $pourcentHome = floatval($supporter->getPourcent($idMatch, $idHome));
+	$pourcentAway = floatval($supporter->getPourcent($idMatch, $idAway));
+	json_pourcent($pourcentHome, $pourcentAway);
 ?>
 

@@ -18,8 +18,9 @@
 		echo json_encode($retour);
 	}
 
-	function json_pourcent($pourcent){
-		$retour ["pourcent"] = $pourcent;
+	function json_pourcent($pourcentHome, $pourcentAway){
+		$retour ["pourcentHome"] = $pourcentHome;
+		$retour ["pourcentAway"] = $pourcentAway;
 
 		echo json_encode($retour);
 	}
