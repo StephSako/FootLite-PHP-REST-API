@@ -9,6 +9,6 @@
         $supporter = new Supporter();
         $pourcentHome = floatval($supporter->getPourcent($idMatch, $idHome));
 	$pourcentAway = floatval($supporter->getPourcent($idMatch, $idAway));
-	json_pourcent($pourcentHome, $pourcentAway);
+	$nbParieurs = intval($supporter->getNbParieurs($idMatch));
+	json_pourcent($pourcentHome, $pourcentAway, $nbParieurs);
 ?>
-

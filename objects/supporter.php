@@ -107,5 +107,13 @@
     			$tabPourcent = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $tabPourcent[0]["pourcent"];
 		}
+
+		public function getNbParieurs($idMatch){
+                        $stmt = $this->connexion->prepare("SELECT * FROM BET WHERE idMatch = ".$idMatch);
+                        $stmt->execute();
+                        $tabNbParieurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        return count($tabNbParieurs);
+                }
+
 	}
 ?>
