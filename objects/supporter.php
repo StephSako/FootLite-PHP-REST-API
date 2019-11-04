@@ -63,19 +63,6 @@
             		else return -1;
 		}
 
-		public function update(){
-                        $stmt = $this->connexion->prepare("SELECT pseudo FROM SUPPORTER WHERE pseudo = '".$this->pseudo."'");
-                        $stmt->execute();
-
-                        if (count($stmt->fetchAll()) == 0){
-                                $stmt = $this->connexion->prepare("UPDATE SUPPORTER SET pseudo = '".$this->pseudo."', password = '".$this->password."', favoriteTeam = ".$this->favoriteTeam.", favoriteTeamName = '".$this->favoriteTeamName."' WHERE idSupporter = ".$this->idSupporter);
-				$stmt->execute();
-
-                                return 1;
-                        }
-                        else return -1;
-                }
-
 		public function bet($bet){
 			$stmt = $this->connexion->prepare("SELECT idBet FROM BET WHERE idSupporter = ".$this->idSupporter." AND idMatch = ".$bet->idMatch);
     			$stmt->execute();
@@ -113,6 +100,16 @@
                         $stmt->execute();
                         $tabNbParieurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         return count($tabNbParieurs);
+                }
+
+		public function editAccount(){
+			$stmt = $this->connexion->prepare("UPDATE SUPPORTER SET pseudo = '".$this->pseudo."', favoriteTeam = ".$this->favoriteTeam.", favoriteTeamName = '".$this->favoriteTeamName."' WHERE idSupporter = ".$this->idSupporter);
+                        $stmt->execute();
+		}
+
+		public function editPassword){
+                        $stmt = $this->connexion->prepare("UPDATE SUPPORTER SET password = '".$this->password."'");
+                        $stmt->execute();
                 }
 
 	}
