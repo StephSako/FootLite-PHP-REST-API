@@ -102,12 +102,17 @@
                         return count($tabNbParieurs);
                 }
 
-		public function editAccount(){
-			$stmt = $this->connexion->prepare("UPDATE SUPPORTER SET pseudo = '".$this->pseudo."', favoriteTeam = ".$this->favoriteTeam.", favoriteTeamName = '".$this->favoriteTeamName."' WHERE idSupporter = ".$this->idSupporter);
+		public function editPseudo(){
+			$stmt = $this->connexion->prepare("UPDATE SUPPORTER SET pseudo = '".$this->pseudo."' WHERE idSupporter = ".$this->idSupporter);
                         $stmt->execute();
 		}
 
-		public function editPassword){
+		public function editFavoriteTeam(){
+			$stmt = $this->connexion->prepare("UPDATE SUPPORTER SET favoriteTeam = ".$this->favoriteTeam.", favoriteTeamName = '".$this->favoriteTeamName."' WHERE idSupporter = ".$this->idSupporter);
+                        $stmt->execute();
+		}
+
+		public function editPassword(){
                         $stmt = $this->connexion->prepare("UPDATE SUPPORTER SET password = '".$this->password."'");
                         $stmt->execute();
                 }

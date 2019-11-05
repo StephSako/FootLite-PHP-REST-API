@@ -2,9 +2,9 @@
 	include(realpath('../rest.php'));
 	include(realpath('../objects/supporter.php'));
 
-	$password = htmlspecialchars(trim($_POST["password"]));
+	$pseudo = htmlspecialchars(trim($_POST["pseudo"]));
 	$idSupporter = htmlspecialchars(trim($_POST["idSupporter"]));
 
-	$supporter = new Supporter("", $password, 0, $idSupporter, 0);
-	$id = $supporter->editPassword();
+	$supporter = new Supporter($pseudo, "", 0, $idSupporter, 0);
+	$id = $supporter->editPseudo();
 ?>
