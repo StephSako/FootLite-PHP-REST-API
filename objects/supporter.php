@@ -113,7 +113,7 @@
 		}
 
 		public function editPassword(){
-                        $stmt = $this->connexion->prepare("UPDATE SUPPORTER SET password = '".$this->password."'");
+                        $stmt = $this->connexion->prepare("UPDATE SUPPORTER SET password = '".$this->password."' WHERE idSupporter = ".$this->idSupporter);
                         $stmt->execute();
                 }
 
