@@ -7,5 +7,5 @@
 	$idSupporter = htmlspecialchars(trim($_POST["idSupporter"]));
 
 	$supporter = new Supporter("", "", $favoriteTeam, $idSupporter, $favoriteTeamName);
-	$id = $supporter->editPseudo();
+	$id = $supporter->editFavoriteTeam();
 ?>
