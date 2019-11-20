@@ -89,7 +89,7 @@
             	}
 
 		public function getPourcent($idMatch, $idWinner){
-			$stmt = $this->connexion->prepare("SELECT ((COUNT(*)*100)/(SELECT COUNT(*) FROM BET WHERE idMatch = ".$idMatch.")) as pourcent FROM BET WHERE idMatch = ".$idMatch." AND idWinner = ".$idWinner);
+			$stmt = $this->connexion->prepare("SELECT ROUND(((COUNT(*)*100)/(SELECT COUNT(*) FROM BET WHERE idMatch = ".$idMatch.")), 2) as pourcent FROM BET WHERE idMatch = ".$idMatch." AND idWinner = ".$idWinner);
     			$stmt->execute();
     			$tabPourcent = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $tabPourcent[0]["pourcent"];
